@@ -16,6 +16,12 @@ namespace LoanEligibilitySimulatorApi.Controller
             _loanService = loanService;
         }
 
+        [HttpGet("health")]
+        public IActionResult HealthCheck()
+        {
+            return Ok("OK");
+        }
+
         [HttpPost("eligibility")]
         public async Task<ActionResult<EligibilityResponse>> GetLoanEligibility(
             [FromBody] EligibilityRequest request
