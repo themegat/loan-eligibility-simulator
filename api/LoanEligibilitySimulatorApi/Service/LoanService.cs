@@ -1,5 +1,6 @@
 using System;
-using LoanEligibilitySimulatorApi.Dto;
+using LoanEligibilitySimulatorApi.Dto.Response;
+using LoanEligibilitySimulatorApi.Dto.Request;
 
 namespace LoanEligibilitySimulatorApi.Service;
 
@@ -41,7 +42,7 @@ public class LoanService
         return Task.FromResult(products);
     }
 
-    public Task<EligibilityResponse> GetLoanEligibility()
+    public Task<EligibilityResponse> GetLoanEligibility(EligibilityRequest request)
     {
         var eligibility = new EligibilityResponse
         {
@@ -72,7 +73,7 @@ public class LoanService
         return Task.FromResult(eligibility);
     }
 
-    public Task<CalculateRateResponse> CalculateInterestRate()
+    public Task<CalculateRateResponse> CalculateInterestRate(CalculateRateRequest request)
     {
         var schedule = new CalculateRateResponse
         {

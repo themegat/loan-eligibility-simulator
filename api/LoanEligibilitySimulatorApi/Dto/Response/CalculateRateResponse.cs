@@ -1,6 +1,6 @@
 using System;
 
-namespace LoanEligibilitySimulatorApi.Dto;
+namespace LoanEligibilitySimulatorApi.Dto.Response;
 
 public class PaymentSchedule
 {
@@ -17,5 +17,5 @@ public class CalculateRateResponse
     public double MonthlyPayment { get; set; }
     public double TotalInterest { get; set; }
     public double TotalRepayment { get; set; }
-    public List<PaymentSchedule>? PaymentSchedules { get; set; }
+    public required List<PaymentSchedule> PaymentSchedules { get; set; }
 }

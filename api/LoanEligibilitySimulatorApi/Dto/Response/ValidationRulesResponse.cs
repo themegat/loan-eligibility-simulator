@@ -1,6 +1,6 @@
 using System;
 
-namespace LoanEligibilitySimulatorApi.Dto;
+namespace LoanEligibilitySimulatorApi.Dto.Response;
 
 public abstract class RangeValidationRule
 {

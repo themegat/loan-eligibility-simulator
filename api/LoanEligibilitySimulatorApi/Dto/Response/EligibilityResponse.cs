@@ -1,4 +1,4 @@
-namespace LoanEligibilitySimulatorApi.Dto;
+namespace LoanEligibilitySimulatorApi.Dto.Response;
 
 public class AffordabilityAnalysis
 {
@@ -21,13 +21,13 @@ public class EligibilityResult
 {
     public bool IsEligible { get; set; }
     public int ApprovalLikelihood { get; set; }
-    public string? RiskCategory { get; set; }
-    public string? DecisionReason { get; set; }
+    public required string RiskCategory { get; set; }
+    public required string DecisionReason { get; set; }
 }
 
 public class EligibilityResponse
 {
-    public EligibilityResult? EligibilityResult { get; set; }
-    public RecommendedLoan? RecommendedLoan { get; set; }
-    public AffordabilityAnalysis? AffordabilityAnalysis { get; set; }
+    public required EligibilityResult EligibilityResult { get; set; }
+    public required RecommendedLoan RecommendedLoan { get; set; }
+    public required AffordabilityAnalysis AffordabilityAnalysis { get; set; }
 }

@@ -1,5 +1,6 @@
+using LoanEligibilitySimulatorApi.Dto.Request;
+using LoanEligibilitySimulatorApi.Dto.Response;
 using LoanEligibilitySimulatorApi.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LoanEligibilitySimulatorApi.Controller
@@ -15,29 +16,33 @@ namespace LoanEligibilitySimulatorApi.Controller
             _loanService = loanService;
         }
 
-        [HttpGet("eligibility")]
-        public async Task<IActionResult> GetLoanEligibility()
+        [HttpPost("eligibility")]
+        public async Task<ActionResult<EligibilityResponse>> GetLoanEligibility(
+            [FromBody] EligibilityRequest request
+        )
         {
-            var eligibility = await _loanService.GetLoanEligibility();
+            var eligibility = await _loanService.GetLoanEligibility(request);
             return Ok(eligibility);
         }
 
         [HttpGet("products")]
-        public async Task<IActionResult> GetAvailableProducts()
+        public async Task<ActionResult<ProductsResponse>> GetAvailableProducts()
         {
             var products = await _loanService.GetAvailableProducts();
             return Ok(products);
         }
 
-        [HttpGet("calculate-rate")]
-        public async Task<IActionResult> CalculateInterestRate()
+        [HttpPost("calculate-rate")]
+        public async Task<ActionResult<CalculateRateResponse>> CalculateInterestRate(
+            [FromBody] CalculateRateRequest request
+        )
         {
-            var rate = await _loanService.CalculateInterestRate();
+            var rate = await _loanService.CalculateInterestRate(request);
             return Ok(rate);
         }
 
         [HttpGet("validation-rules")]
-        public async Task<IActionResult> GetValidationRules()
+        public async Task<ActionResult<ValidationRulesResponse>> GetValidationRules()
         {
             var rules = await _loanService.GetValidationRules();
             return Ok(rules);
