@@ -1,15 +1,10 @@
-import {
-  Button,
-  Stack,
-  StepContent,
-  Typography,
-  type SxProps,
-} from "@mui/material";
+import { Button, Stack, StepContent, type SxProps } from "@mui/material";
 import {
   useGetApiLoansProductsQuery,
   useGetApiLoansValidationRulesQuery,
+  type EligibilityResponse,
 } from "../store/loansApi";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PersonalInfoComponent from "../components/PersonalInfo";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -18,12 +13,21 @@ import FinancialInfoComponent from "../components/FinancialInfo";
 import LoanDetailsComponent from "../components/LoanDetails";
 import type { StepData } from "../models/StepData";
 import ProductSelectComponent from "../components/ProductSelect";
+import useLoans from "../hooks/useLoans";
 
 const buttonStyle: SxProps = {
   width: 30,
 };
 
-const LoanFrom = () => {
+type Props = {
+  setStepsData: React.Dispatch<React.SetStateAction<StepData | null>>;
+  setEligibilityResponse: React.Dispatch<
+    React.SetStateAction<EligibilityResponse | null>
+  >;
+};
+
+const LoanForm = ({ setStepsData, setEligibilityResponse }: Props) => {
+  const { determineEligibility } = useLoans();
   const { data: loansProducts } = useGetApiLoansProductsQuery();
   const { data: validationRules } = useGetApiLoansValidationRulesQuery();
   const [activeStep, setActiveStep] = useState(0);
@@ -49,11 +53,6 @@ const LoanFrom = () => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
-  useEffect(() => {
-    console.log(stepData);
-  }, [stepData]);
-
   const handleProductSelectChange = (
     errors: boolean,
     name: string,
@@ -118,13 +117,15 @@ const LoanFrom = () => {
     });
   };
 
+  const handleDetermineEligibility = () => {
+    determineEligibility(stepData).then((response) => {
+      setEligibilityResponse(response);
+      setStepsData(stepData);
+    });
+  };
+
   return (
     <Stack>
-      <Stack>
-        <Typography variant="h4" gutterBottom>
-          Loan Eligibility Simulator
-        </Typography>
-      </Stack>
       <Stack>
         <Stepper activeStep={activeStep} orientation="vertical">
           <Step>
@@ -167,8 +168,12 @@ const LoanFrom = () => {
                   validations={validationRules?.personalInfo}
                 />
               )}
-              <Stack direction="row">
-                <Button sx={buttonStyle} onClick={handleBack}>
+              <Stack direction="row" gap={2}>
+                <Button
+                  variant="outlined"
+                  sx={buttonStyle}
+                  onClick={handleBack}
+                >
                   Back
                 </Button>
                 <Button
@@ -198,8 +203,12 @@ const LoanFrom = () => {
                   validations={validationRules?.financialInfo}
                 />
               )}
-              <Stack direction="row">
-                <Button sx={buttonStyle} onClick={handleBack}>
+              <Stack direction="row" gap={2}>
+                <Button
+                  variant="outlined"
+                  sx={buttonStyle}
+                  onClick={handleBack}
+                >
                   Back
                 </Button>
                 <Button
@@ -227,14 +236,18 @@ const LoanFrom = () => {
                   validations={validationRules?.loanDetails}
                 />
               )}
-              <Stack direction="row">
-                <Button sx={buttonStyle} onClick={handleBack}>
+              <Stack direction="row" gap={2}>
+                <Button
+                  variant="outlined"
+                  sx={buttonStyle}
+                  onClick={handleBack}
+                >
                   Back
                 </Button>
                 <Button
                   variant="contained"
                   disabled={stepData?.step3?.errors}
-                  onClick={handleNext}
+                  onClick={handleDetermineEligibility}
                 >
                   Check Eligibility
                 </Button>
@@ -247,4 +260,4 @@ const LoanFrom = () => {
   );
 };
 
-export default LoanFrom;
+export default LoanForm;

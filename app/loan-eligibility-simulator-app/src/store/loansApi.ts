@@ -77,6 +77,65 @@ export type EligibilityResponse = {
   recommendedLoan: RecommendedLoan;
   affordabilityAnalysis: AffordabilityAnalysis;
 };
+export type PersonalInfoRequest = {
+  age?: number | string;
+  employmentStatus: string;
+  employmentDuration?: number | string;
+};
+export type FinancialInfoRequest = {
+  monthlyIncome?: number | string;
+  monthlyExpenses?: number | string;
+  existingDebt?: number | string;
+  creditScore?: number | string;
+};
+export type LoanDetailsRequest = {
+  requestedAmount?: number | string;
+  loanTerm?: number | string;
+  loanPurpose: string;
+};
+export type EligibilityRequest = {
+  personalInfo: PersonalInfoRequest;
+  financialInfo: FinancialInfoRequest;
+  loanDetails: LoanDetailsRequest;
+};
+export type InterestRateRange = {
+  min?: number | string;
+  max?: number | string;
+};
+export type Product = {
+  id: string;
+  name: string;
+  description: string;
+  minAmount?: number | string;
+  maxAmount?: number | string;
+  minTerm?: number | string;
+  maxTerm?: number | string;
+  interestRateRange: InterestRateRange;
+  purposes: string[];
+};
+export type ProductsResponse = {
+  products: Product[];
+};
+export type PaymentSchedule = {
+  month?: number | string;
+  payment?: number | string;
+  principal?: number | string;
+  interest?: number | string;
+  balance?: number | string;
+};
+export type CalculateRateResponse = {
+  interestRate?: number | string;
+  monthlyPayment?: number | string;
+  totalInterest?: number | string;
+  totalRepayment?: number | string;
+  paymentSchedules: PaymentSchedule[];
+};
+export type CalculateRateRequest = {
+  loanAmount?: number | string;
+  loanTerm?: number | string;
+  creditScore?: number | string;
+  loanType: string;
+};
 export type Age = {
   errorMessage: string;
   min?: number | string;
@@ -134,49 +193,6 @@ export type LoanTerm = {
 export type LoanDetails = {
   requestedAmount?: null | RequestedAmount;
   loanTerm?: null | LoanTerm;
-};
-export type EligibilityRequest = {
-  personalInfo: PersonalInfo;
-  financialInfo: FinancialInfo;
-  loanDetails: LoanDetails;
-};
-export type InterestRateRange = {
-  min?: number | string;
-  max?: number | string;
-};
-export type Product = {
-  id: string;
-  name: string;
-  description: string;
-  minAmount?: number | string;
-  maxAmount?: number | string;
-  minTerm?: number | string;
-  maxTerm?: number | string;
-  interestRateRange: InterestRateRange;
-  purposes: string[];
-};
-export type ProductsResponse = {
-  products: Product[];
-};
-export type PaymentSchedule = {
-  month?: number | string;
-  payment?: number | string;
-  principal?: number | string;
-  interest?: number | string;
-  balance?: number | string;
-};
-export type CalculateRateResponse = {
-  interestRate?: number | string;
-  monthlyPayment?: number | string;
-  totalInterest?: number | string;
-  totalRepayment?: number | string;
-  paymentSchedules: PaymentSchedule[];
-};
-export type CalculateRateRequest = {
-  loanAmount?: number | string;
-  loanTerm?: number | string;
-  creditScore?: number | string;
-  loanType: string;
 };
 export type ValidationRulesResponse = {
   personalInfo?: null | PersonalInfo;
