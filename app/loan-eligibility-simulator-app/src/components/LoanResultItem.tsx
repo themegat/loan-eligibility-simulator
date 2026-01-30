@@ -8,8 +8,8 @@ type Props = {
 const LoanResultItem = ({ title, value }: Props) => {
   return (
     <Stack direction="row" gap={2}>
-      <Typography variant="h6">{title}</Typography>
-      <Typography variant="h6" fontWeight="bold">
+      <Typography variant="body1">{title}</Typography>
+      <Typography variant="body1" fontWeight="bold">
         {value}
       </Typography>
     </Stack>

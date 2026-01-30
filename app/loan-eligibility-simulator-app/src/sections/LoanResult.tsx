@@ -44,11 +44,11 @@ const LoanResult = ({ stepsData, eligibilityResponse }: Props) => {
         data: {
           datasets: [
             {
-              type: "line",
+              type: "bar",
               label: "Interest (%)",
               backgroundColor: "#00000",
-              data: response.paymentSchedules.map(
-                (paymentSchedule) => Number(paymentSchedule.interest) * 10,
+              data: response.paymentSchedules.map((paymentSchedule) =>
+                Number(paymentSchedule.interest),
               ),
             },
             {
@@ -60,7 +60,7 @@ const LoanResult = ({ stepsData, eligibilityResponse }: Props) => {
               ),
             },
             {
-              type: "bar",
+              type: "line",
               label: "Balance (R)",
               backgroundColor: "#2F70EF",
               data: response.paymentSchedules.map((paymentSchedule) =>
@@ -122,15 +122,15 @@ const LoanResult = ({ stepsData, eligibilityResponse }: Props) => {
                 title="And a total loan amount of:"
                 value={`R ${eligibilityResponse.recommendedLoan.totalRepayment}`}
               />
+              <Stack marginTop={2} gap={2} direction="row">
+                <Button onClick={handleRecheckEligibility} variant="contained">
+                  Recheck Eligibility{" "}
+                </Button>
+              </Stack>
             </Stack>
             <div style={{ width: "800px" }}>
               <canvas id="amortisation" />
             </div>
-          </Stack>
-          <Stack marginTop={2} gap={2} direction="row">
-            <Button onClick={handleRecheckEligibility} variant="contained">
-              Recheck Eligibility{" "}
-            </Button>
           </Stack>
         </Stack>
       ) : (

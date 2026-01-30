@@ -20,9 +20,7 @@ const useLoans = () => {
   };
 
   const determineEligibility = (data: StepData) => {
-    const existingDebt =
-      (data.step2?.monthlyIncome ?? 0) - (data.step2?.monthlyExpenses ?? 0);
-
+    const existingDebt = 5000;
     return apiPostEligibility({
       eligibilityRequest: {
         personalInfo: {
