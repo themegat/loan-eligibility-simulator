@@ -15,15 +15,23 @@ LoanEligibilitySimulatorApi/
 ├── Controller/
 │   └── LoansController.cs          # API endpoints
 ├── Dto/
-│   ├── ProductsResponse.cs         # Loan product DTOs
-│   ├── EligibilityResponse.cs       # Eligibility assessment DTOs
-│   ├── CalculateRateResponse.cs     # Payment schedule DTOs
-│   └── ValidationRulesResponse.cs   # Validation rule DTOs
+│   ├── Request/
+│   │   ├── CalculateRateRequest.cs   # Request model for rate calculation
+│   │   └── EligibilityRequest.cs     # Request model for eligibility check
+│   └── Response/
+│       ├── CalculateRateResponse.cs  # Payment schedule response
+│       ├── EligibilityResponse.cs    # Eligibility assessment response
+│       ├── ProductsResponse.cs       # Loan products response
+│       └── ValidationRulesResponse.cs # Validation rules response
 ├── Service/
 │   └── LoanService.cs              # Business logic
-├── Program.cs                       # Application startup
-├── appsettings.json                # Configuration
-└── LoanEligibilitySimulatorApi.csproj
+├── Properties/
+│   └── launchSettings.json         # Launch configuration
+├── Program.cs                       # Application startup and configuration
+├── appsettings.json                # Configuration settings
+├── appsettings.Development.json    # Development configuration
+├── LoanEligibilitySimulatorApi.csproj # Project file
+└── LoanEligibilitySimulatorApi.http # HTTP request examples
 ```
 
 ## Quick Start
@@ -55,161 +63,6 @@ The API will start on:
 Once running, visit:
 - **Development**: `http://localhost:5005/openapi/v1.json`
 
-## Available Endpoints
-
-### Get Available Loan Products
-```
-GET /api/loans/products
-```
-Returns a list of available loan products with terms and interest rate ranges.
-
-**Response**: `ProductsResponse`
-```json
-{
-  "products": [
-    {
-      "id": "personal_loan",
-      "name": "Personal Loan",
-      "description": "Flexible personal financing",
-      "minAmount": 5000.00,
-      "maxAmount": 300000.00,
-      "minTerm": 6,
-      "maxTerm": 60,
-      "interestRateRange": {
-        "min": 10.5,
-        "max": 18.5
-      },
-      "purposes": ["debt_consolidation", "home_improvement", "education", "medical", "other"]
-    }
-  ]
-}
-```
-
-### Get Loan Eligibility Assessment
-```
-GET /api/loans/eligibility
-```
-Returns eligibility results, recommended loan amount, and affordability analysis.
-
-**Response**: `EligibilityResponse`
-```json
-{
-  "eligibilityResult": {
-    "isEligible": true,
-    "approvalLikelihood": 85,
-    "riskCategory": "low",
-    "decisionReason": "Strong income-to-expense ratio"
-  },
-  "recommendedLoan": {
-    "maxAmount": 180000.00,
-    "recommendedAmount": 150000.00,
-    "interestRate": 12.5,
-    "monthlyPayment": 7089.50,
-    "totalRepayment": 170148.00
-  },
-  "affordabilityAnalysis": {
-    "disposableIncome": 10000.00,
-    "debtToIncomeRatio": 20,
-    "loanToIncomeRatio": 60,
-    "affordabilityScore": "good"
-  }
-}
-```
-
-### Calculate Interest Rate & Payment Schedule
-```
-GET /api/loans/calculate-rate
-```
-Returns interest rate, monthly payment, and detailed payment schedule.
-
-**Response**: `CalculateRateResponse`
-```json
-{
-  "interestRate": 12.5,
-  "monthlyPayment": 7089.50,
-  "totalInterest": 20148.00,
-  "totalRepayment": 170148.00,
-  "paymentSchedules": [
-    {
-      "month": 1,
-      "payment": 7089.50,
-      "principal": 5527.17,
-      "interest": 1562.33,
-      "balance": 144472.83
-    }
-  ]
-}
-```
-
-### Get Validation Rules
-```
-GET /api/loans/validation-rules
-```
-Returns validation rules for loan application form fields (age, income, credit score, etc.).
-
-**Response**: `ValidationRulesResponse`
-```json
-{
-  "personalInfo": {
-    "age": {
-      "min": 18,
-      "max": 65,
-      "required": true,
-      "errorMessage": "Age must be between 18 and 65"
-    },
-    "employmentStatus": {
-      "required": true,
-      "options": ["employed", "self_employed", "unemployed", "retired"],
-      "errorMessage": "Please select your employment status"
-    }
-  },
-  "financialInfo": {
-    "monthlyIncome": {
-      "min": 5000.00,
-      "required": true,
-      "errorMessage": "Minimum monthly income of R5,000 required"
-    },
-    "creditScore": {
-      "min": 300,
-      "max": 850,
-      "required": false,
-      "errorMessage": "Credit score must be between 300 and 850"
-    }
-  },
-  "loanDetails": {
-    "requestedAmount": {
-      "min": 5000.00,
-      "max": 300000.00,
-      "required": true,
-      "errorMessage": "Loan amount must be between R5,000 and R300,000"
-    }
-  }
-}
-```
-
-## Development
-
-### Build the Project
-```bash
-dotnet build
-```
-
-### Run Tests (if available)
-```bash
-dotnet test
-```
-
-### Development Configuration
-
-The API uses `appsettings.Development.json` for development environment settings. Modify as needed for your local setup.
-
-### Code Structure
-
-- **Controllers**: Handle HTTP requests and route them to services
-- **Services**: Contain business logic for loan calculations and eligibility
-- **DTOs**: Define data transfer objects for API responses
-- **Data Layer**: Contains seed data for products, validation rules, and sample calculations
-
 ## Configuration
 
 ### appsettings.json
@@ -235,14 +88,6 @@ Output will be in the `./publish` directory for deployment.
 - **OpenAPI/Swagger** - API documentation
 - **C# 13** - Language
 
-## Contributing
-
-When adding new features:
-1. Add corresponding DTOs in `Dto/` folder
-2. Implement business logic in `Service/LoanService.cs`
-3. Add controller endpoints in `Controller/LoansController.cs`
-4. Document endpoints in this README
-
 ## Troubleshooting
 
 ### Port Already in Use
@@ -262,11 +107,3 @@ Ensure you have the correct .NET version:
 ```bash
 dotnet --version
 ```
-
-## License
-
-[Your License Here]
-
-## Support
-
-For issues or questions, please contact the development team.

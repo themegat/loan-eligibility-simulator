@@ -15,8 +15,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    Console.WriteLine("===== Running in Development mode =====");
     app.MapOpenApi();
-
     app.UseCors(policy =>
     {
         policy.WithOrigins("http://localhost:5173")
