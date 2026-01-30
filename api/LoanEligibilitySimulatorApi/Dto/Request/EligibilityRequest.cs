@@ -2,14 +2,14 @@ using System;
 
 namespace LoanEligibilitySimulatorApi.Dto.Request;
 
-public class PersonalInfo
+public class PersonalInfoRequest
 {
     public int Age { get; set; }
     public required string EmploymentStatus { get; set; }
     public int EmploymentDuration { get; set; }
 }
 
-public class FinancialInfo
+public class FinancialInfoRequest
 {
     public double MonthlyIncome { get; set; }
     public double MonthlyExpenses { get; set; }
@@ -17,7 +17,7 @@ public class FinancialInfo
     public int CreditScore { get; set; }
 }
 
-public class LoanDetails
+public class LoanDetailsRequest
 {
     public double RequestedAmount { get; set; }
     public int LoanTerm { get; set; }
@@ -26,7 +26,7 @@ public class LoanDetails
 
 public class EligibilityRequest
 {
-    public required PersonalInfo PersonalInfo { get; set; }
-    public required FinancialInfo FinancialInfo { get; set; }
-    public required LoanDetails LoanDetails { get; set; }
+    public required PersonalInfoRequest PersonalInfo { get; set; }
+    public required FinancialInfoRequest FinancialInfo { get; set; }
+    public required LoanDetailsRequest LoanDetails { get; set; }
 }

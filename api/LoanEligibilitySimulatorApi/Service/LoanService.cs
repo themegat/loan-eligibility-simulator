@@ -75,31 +75,35 @@ public class LoanService
 
     public Task<CalculateRateResponse> CalculateInterestRate(CalculateRateRequest request)
     {
+        var loanAmount = 150000.00;
+        var monthlyRate = 12.5 / 12 / 100;
+        var monthlyPayment = 7089.50;
+        var balance = loanAmount;
+        var paymentSchedules = new List<PaymentSchedule>();
+
+        for (int month = 1; month <= 24; month++)
+        {
+            var interest = Math.Round(balance * monthlyRate, 2);
+            var principal = Math.Round(monthlyPayment - interest, 2);
+            balance = Math.Round(balance - principal, 2);
+
+            paymentSchedules.Add(new PaymentSchedule
+            {
+                Month = month,
+                Payment = monthlyPayment,
+                Principal = principal,
+                Interest = interest,
+                Balance = balance < 0 ? 0 : balance
+            });
+        }
+
         var schedule = new CalculateRateResponse
         {
             InterestRate = 12.5,
             MonthlyPayment = 7089.50,
             TotalInterest = 20148.00,
             TotalRepayment = 170148.00,
-            PaymentSchedules = new List<PaymentSchedule>
-            {
-                new PaymentSchedule
-                {
-                    Month = 1,
-                    Payment = 7089.50,
-                    Principal = 5527.17,
-                    Interest = 1562.33,
-                    Balance = 144472.83
-                },
-                new PaymentSchedule
-                {
-                    Month = 2,
-                    Payment = 7089.50,
-                    Principal = 5584.89,
-                    Interest = 1504.61,
-                    Balance = 138887.94
-                }
-            }
+            PaymentSchedules = paymentSchedules
         };
 
         return Task.FromResult(schedule);
