@@ -3,6 +3,7 @@ import type { FinancialInfo } from "../store/loansApi";
 import { useForm } from "react-hook-form";
 import TextInput from "./inputs/TextInput";
 import { useEffect } from "react";
+import useUtilities from "../hooks/useUtilities";
 
 type Props = {
   values?: {
@@ -20,6 +21,8 @@ type Props = {
 };
 
 const FinancialInfoComponent = ({ values, validations, onChange }: Props) => {
+  const { isMobile, isTablet } = useUtilities();
+
   const { control, trigger, watch, formState } = useForm({
     defaultValues: {
       monthlyIncome: values?.monthlyIncome ?? "",
@@ -38,14 +41,14 @@ const FinancialInfoComponent = ({ values, validations, onChange }: Props) => {
   }, [watch, formState]);
 
   return (
-    <Stack gap={5} direction="row">
-      <Stack maxWidth={"40%"}>
+    <Stack gap={isMobile ? 2 : 5} direction={isMobile ? "column" : "row"}>
+      <Stack maxWidth={isMobile || isTablet ? "100%" : "40%"}>
         <Typography variant="h6" gutterBottom>
           We're almost done, next please let us know a little about your
           financial situation
         </Typography>
       </Stack>
-      <Stack minWidth={"30%"} gap={2}>
+      <Stack minWidth={isTablet ? "50%" : "30%"} gap={2}>
         <TextInput
           type="number"
           name="monthlyIncome"

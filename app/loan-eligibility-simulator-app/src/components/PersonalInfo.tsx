@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import TextInput from "./inputs/TextInput";
 import SelectInput from "./inputs/SelectInput";
 import { useEffect } from "react";
+import useUtilities from "../hooks/useUtilities";
 
 type Props = {
   values?: {
@@ -21,6 +22,8 @@ type Props = {
 };
 
 const PersonalInfoComponent = ({ values, validations, onChange }: Props) => {
+  const { isMobile, isTablet } = useUtilities();
+
   const empStatusIndex =
     validations.employmentStatus?.options.findIndex(
       (option) => option === values?.employmentStatus,
@@ -45,13 +48,13 @@ const PersonalInfoComponent = ({ values, validations, onChange }: Props) => {
   }, [watch, formState]);
 
   return (
-    <Stack gap={5} direction="row">
-      <Stack maxWidth={"40%"}>
+    <Stack gap={isMobile ? 2 : 5} direction={isMobile ? "column" : "row"}>
+      <Stack maxWidth={isMobile || isTablet ? "100%" : "40%"}>
         <Typography variant="h6" gutterBottom>
           Next please tell us a little about yourself and your employment
         </Typography>
       </Stack>
-      <Stack minWidth={"30%"} gap={2}>
+      <Stack minWidth={isTablet ? "50%" : "30%"} gap={2}>
         <TextInput
           type="number"
           name="age"

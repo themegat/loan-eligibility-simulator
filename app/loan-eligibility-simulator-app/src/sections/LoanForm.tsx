@@ -14,6 +14,7 @@ import LoanDetailsComponent from "../components/LoanDetails";
 import type { StepData } from "../models/StepData";
 import ProductSelectComponent from "../components/ProductSelect";
 import useLoans from "../hooks/useLoans";
+import useUtilities from "../hooks/useUtilities";
 
 const buttonStyle: SxProps = {
   width: 30,
@@ -27,6 +28,8 @@ type Props = {
 };
 
 const LoanForm = ({ setStepsData, setEligibilityResponse }: Props) => {
+  const { isMobile } = useUtilities();
+
   const { determineEligibility } = useLoans();
   const { data: loansProducts } = useGetApiLoansProductsQuery();
   const { data: validationRules } = useGetApiLoansValidationRulesQuery();
@@ -124,6 +127,13 @@ const LoanForm = ({ setStepsData, setEligibilityResponse }: Props) => {
     });
   };
 
+  const buttonGroupStyle: SxProps = {
+    gap: 2,
+    marginTop: isMobile ? 2 : 0,
+    display: "flex",
+    flexDirection: "row",
+  };
+
   return (
     <Stack>
       <Stack>
@@ -141,7 +151,7 @@ const LoanForm = ({ setStepsData, setEligibilityResponse }: Props) => {
                   onChange={handleProductSelectChange}
                 />
               )}
-              <Stack>
+              <Stack sx={buttonGroupStyle}>
                 <Button
                   sx={buttonStyle}
                   variant="contained"
@@ -168,7 +178,7 @@ const LoanForm = ({ setStepsData, setEligibilityResponse }: Props) => {
                   validations={validationRules?.personalInfo}
                 />
               )}
-              <Stack direction="row" gap={2}>
+              <Stack sx={buttonGroupStyle}>
                 <Button
                   variant="outlined"
                   sx={buttonStyle}
@@ -203,7 +213,7 @@ const LoanForm = ({ setStepsData, setEligibilityResponse }: Props) => {
                   validations={validationRules?.financialInfo}
                 />
               )}
-              <Stack direction="row" gap={2}>
+              <Stack sx={buttonGroupStyle}>
                 <Button
                   variant="outlined"
                   sx={buttonStyle}
@@ -236,7 +246,7 @@ const LoanForm = ({ setStepsData, setEligibilityResponse }: Props) => {
                   validations={validationRules?.loanDetails}
                 />
               )}
-              <Stack direction="row" gap={2}>
+              <Stack sx={buttonGroupStyle}>
                 <Button
                   variant="outlined"
                   sx={buttonStyle}

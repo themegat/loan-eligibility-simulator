@@ -3,6 +3,7 @@ import type { Product } from "../store/loansApi";
 import { useForm } from "react-hook-form";
 import SelectInput from "./inputs/SelectInput";
 import { useCallback, useEffect } from "react";
+import useUtilities from "../hooks/useUtilities";
 
 type Props = {
   values?: {
@@ -20,6 +21,7 @@ const ProductSelectComponent = ({ products, onChange, values }: Props) => {
     },
     [products],
   );
+  const { isMobile, isTablet } = useUtilities();
 
   const nameIndex = products.findIndex(
     (product) => product.name === values?.name,
@@ -53,13 +55,13 @@ const ProductSelectComponent = ({ products, onChange, values }: Props) => {
   }, [watch, formState]);
 
   return (
-    <Stack gap={5} direction="row">
-      <Stack maxWidth={'40%'}>
+    <Stack gap={isMobile ? 2 : 5} direction={isMobile ? "column" : "row"}>
+      <Stack maxWidth={isMobile || isTablet ? "100%" : "40%"}>
         <Typography variant="h6" gutterBottom>
           To begin please tell us about the loan you want to apply for
         </Typography>
       </Stack>
-      <Stack minWidth={'30%'} gap={2}>
+      <Stack minWidth={isTablet ? "50%" : "30%"} gap={2}>
         <SelectInput
           name="name"
           label="Loan Type"

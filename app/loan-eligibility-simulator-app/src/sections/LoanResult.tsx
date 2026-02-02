@@ -8,6 +8,7 @@ import { Chart } from "chart.js/auto";
 import { useEffect } from "react";
 import type { StepData } from "../models/StepData";
 import useLoans from "../hooks/useLoans";
+import useUtilities from "../hooks/useUtilities";
 
 type Props = {
   stepsData: StepData | null;
@@ -15,6 +16,7 @@ type Props = {
 };
 
 const LoanResult = ({ stepsData, eligibilityResponse }: Props) => {
+  const { isMobile, isTablet } = useUtilities();
   const { calculatePaymentSchedule } = useLoans();
   const handleRecheckEligibility = () => {
     window.location.reload();
@@ -104,7 +106,11 @@ const LoanResult = ({ stepsData, eligibilityResponse }: Props) => {
             Great news, you are eligible for a loan of up to R{" "}
             {eligibilityResponse.recommendedLoan.maxAmount}
           </Typography>
-          <Stack direction="row" alignItems="center" gap={5}>
+          <Stack
+            direction={isMobile || isTablet ? "column" : "row"}
+            alignItems="center"
+            gap={5}
+          >
             <Stack>
               <LoanResultItem
                 title="Your likelyhood of being approved is: "
@@ -128,7 +134,7 @@ const LoanResult = ({ stepsData, eligibilityResponse }: Props) => {
                 </Button>
               </Stack>
             </Stack>
-            <div style={{ width: "800px" }}>
+            <div style={{ width: isMobile || isTablet ? "100%" : "800px" }}>
               <canvas id="amortisation" />
             </div>
           </Stack>
@@ -138,6 +144,11 @@ const LoanResult = ({ stepsData, eligibilityResponse }: Props) => {
           <Typography variant="h6">
             Unfortunately you are not eligible for the loan.
           </Typography>
+          <Stack marginTop={2} gap={2} direction="row">
+            <Button onClick={handleRecheckEligibility} variant="contained">
+              Recheck Eligibility{" "}
+            </Button>
+          </Stack>
         </Stack>
       )}
     </Stack>

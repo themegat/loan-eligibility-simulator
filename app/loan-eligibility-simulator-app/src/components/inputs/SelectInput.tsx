@@ -6,7 +6,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import { formatOption } from "../../utils/Utilities";
+import useUtilities from "../../hooks/useUtilities";
 type Props = {
   name: string;
   label: string;
@@ -28,6 +28,8 @@ const SelectInput = ({
   control,
   options,
 }: Props) => {
+  const { formatOption } = useUtilities();
+
   return (
     <Controller
       name={name}
