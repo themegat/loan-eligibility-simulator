@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-// initialize an empty api service that we'll inject endpoints into later as needed
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export const baseSplitApi = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: "/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: apiUrl }),
   endpoints: () => ({}),
 });
